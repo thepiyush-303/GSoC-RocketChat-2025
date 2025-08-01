@@ -262,27 +262,27 @@ Each reminder button contains pre-populated data including the event title, date
 
 ### Merged Pull Requests
 
-**[#1 - Initialize Slash Command Setup](https://github.com/RocketChat/Apps.Trip.Helper/pull/1):** Set up the foundational slash command structure for the Trip Helper App. Implemented the `/trip` command framework and created the help command functionality to guide users through available features.
+- **[#1 - Initialize Slash Command Setup](https://github.com/RocketChat/Apps.Trip.Helper/pull/1):** Set up the foundational slash command structure for the Trip Helper App. Implemented the `/trip` command framework and created the help command functionality to guide users through available features.
 
-**[#2 - Add Issue and PR Templates](https://github.com/RocketChat/Apps.Trip.Helper/pull/2):** Enhanced project collaboration by implementing standardized issue and pull request templates, making it easier for new contributors to participate in the project development process.
+- **[#2 - Add Issue and PR Templates](https://github.com/RocketChat/Apps.Trip.Helper/pull/2):** Enhanced project collaboration by implementing standardized issue and pull request templates, making it easier for new contributors to participate in the project development process.
 
-**[#3 - Implement Automatic Direct Room Creation](https://github.com/RocketChat/Apps.Trip.Helper/pull/3):** Developed automatic room creation functionality that triggers upon app installation, complete with welcome messages explaining the app's capabilities and enabling immediate image upload functionality for location detection.
+- **[#3 - Implement Automatic Direct Room Creation](https://github.com/RocketChat/Apps.Trip.Helper/pull/3):** Developed automatic room creation functionality that triggers upon app installation, complete with welcome messages explaining the app's capabilities and enabling immediate image upload functionality for location detection.
 
-**[#4 - Add LLM Configuration Settings](https://github.com/RocketChat/Apps.Trip.Helper/pull/4):** Implemented user-configurable LLM model settings including API key management and model selection options. Added the `/trip config` command with modal interface for easy credential management and configuration updates.
+- **[#4 - Add LLM Configuration Settings](https://github.com/RocketChat/Apps.Trip.Helper/pull/4):** Implemented user-configurable LLM model settings including API key management and model selection options. Added the `/trip config` command with modal interface for easy credential management and configuration updates.
 
-**[#5 - Integrate LLM Model with Basic Prompts](https://github.com/RocketChat/Apps.Trip.Helper/pull/5):** Established core LLM integration with initial prompt engineering for image recognition. Implemented the `/trip create` command and foundational conversational room features, enabling basic image analysis and location detection capabilities.
+- **[#5 - Integrate LLM Model with Basic Prompts](https://github.com/RocketChat/Apps.Trip.Helper/pull/5):** Established core LLM integration with initial prompt engineering for image recognition. Implemented the `/trip create` command and foundational conversational room features, enabling basic image analysis and location detection capabilities.
 
-**[#6 - Fix Room Interaction Issues](https://github.com/RocketChat/Apps.Trip.Helper/pull/6):** Resolved critical bug where newly created rooms weren't responding to user interactions due to improper room name storage from PR #5, ensuring seamless user experience across all created trip channels.
+- **[#6 - Fix Room Interaction Issues](https://github.com/RocketChat/Apps.Trip.Helper/pull/6):** Resolved critical bug where newly created rooms weren't responding to user interactions due to improper room name storage from PR #5, ensuring seamless user experience across all created trip channels.
 
-**[#7 - Implement Location-Based Conversations](https://github.com/RocketChat/Apps.Trip.Helper/pull/7):** Enhanced conversational capabilities by implementing location storage per room and enabling context-aware responses. Improved prompt engineering for better location-specific assistance and user query handling.
+- **[#7 - Implement Location-Based Conversations](https://github.com/RocketChat/Apps.Trip.Helper/pull/7):** Enhanced conversational capabilities by implementing location storage per room and enabling context-aware responses. Improved prompt engineering for better location-specific assistance and user query handling.
 
-**[#8 - Add Google Search API Integration](https://github.com/RocketChat/Apps.Trip.Helper/pull/8):** Integrated Google Search API to power the `/trip info` command, enabling location-specific searches and providing comprehensive local information including events, attractions, and activities.
+- **[#8 - Add Google Search API Integration](https://github.com/RocketChat/Apps.Trip.Helper/pull/8):** Integrated Google Search API to power the `/trip info` command, enabling location-specific searches and providing comprehensive local information including events, attractions, and activities.
 
-**[#9 - Implement Reminder Functionality](https://github.com/RocketChat/Apps.Trip.Helper/pull/9):** Added comprehensive reminder system with intelligent time validation (preventing past dates, handling next-day logic for times within 12 hours). Enhanced info command responses with LLM-powered formatting and integrated quick-access reminder buttons for discovered events.
+- **[#9 - Implement Reminder Functionality](https://github.com/RocketChat/Apps.Trip.Helper/pull/9):** Added comprehensive reminder system with intelligent time validation (preventing past dates, handling next-day logic for times within 12 hours). Enhanced info command responses with LLM-powered formatting and integrated quick-access reminder buttons for discovered events.
 
 ### Work in Progress
 
-**[#10 - Multi-Language Translation Support](https://github.com/RocketChat/Apps.Trip.Helper/pull/10):** Currently developing internationalization features to support app responses in German, English, Polish, Portuguese, and Russian, making the Trip Helper accessible to a global user base.
+- **[#10 - Multi-Language Translation Support](https://github.com/RocketChat/Apps.Trip.Helper/pull/10):** Currently developing internationalization features to support app responses in German, English, Polish, Portuguese, and Russian, making the Trip Helper accessible to a global user base.
 
 ### Future Improvements and Expansion Possibilities
 
