@@ -216,11 +216,11 @@ These findings highlight the effectiveness of choosing Llama 3.2 Vision models f
 
 I developed a comprehensive set of slash commands to integrate the Trip Helper App seamlessly with Rocket.Chat, providing users with intuitive access to all travel assistance features:
 
-• `/trip help` - Returns a complete list of available commands and their usage instructions
-• `/trip create` - Creates a dedicated trip channel for accessing all app functionality  
-• `/trip reminder` - Sets up reminders for upcoming events and activities in your area
-• `/trip location` - Shares or updates your current location within the trip channel
-• `/trip info` - Retrieves information about events happening around your current location
+- `/trip help` - Returns a complete list of available commands and their usage instructions
+- `/trip create` - Creates a dedicated trip channel for accessing all app functionality  
+- `/trip reminder` - Sets up reminders for upcoming events and activities in your area
+- `/trip location` - Shares or updates your current location within the trip channel
+- `/trip info` - Retrieves information about events happening around your current location
 
 #### Command Details and Functionality
 
