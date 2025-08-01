@@ -20,17 +20,17 @@ The goal of this project was to develop an intelligent Trip Helper App that coul
 
 The main objective of my project was to create an AI-powered trip assistance app that seamlessly integrates with Rocket.Chat. Specifically, I aimed to:
 
-• Implement an intelligent conversation system capable of providing personalized travel recommendations and destination insights.
+- Implement an intelligent conversation system capable of providing personalized travel recommendations and destination insights.
 
-• Develop a chat-based interface allowing users to easily interact with the trip helper directly within Rocket.Chat.
+- Develop a chat-based interface allowing users to easily interact with the trip helper directly within Rocket.Chat.
 
-• Integrate open-source LLMs (such as Llama) to power the travel assistance and recommendation engine.
+- Integrate open-source LLMs (such as Llama) to power the travel assistance and recommendation engine.
 
-• Ensure the generated travel information is accurate, relevant, and formatted appropriately for immediate use in trip planning.
+- Ensure the generated travel information is accurate, relevant, and formatted appropriately for immediate use in trip planning.
 
-• Create a comprehensive knowledge base covering attractions, local customs, weather patterns, and practical travel tips.
+- Create a comprehensive knowledge base covering attractions, local customs, weather patterns, and practical travel tips.
 
-• Build a foundation for future developments, including real-time booking integration and collaborative trip planning features.
+- Build a foundation for future developments, including real-time booking integration and collaborative trip planning features.
 
 These goals were designed to address the challenge of making travel planning more accessible and informed for Rocket.Chat user communities.
 
@@ -341,8 +341,8 @@ These challenges ultimately made me a better developer and gave me deep insights
 
 I am fortunate to have two incredible mentors who guided me throughout this journey:
 
-• **Zishan Ahmad:** [GitHub](https://github.com/spiral-memory)
-• **Yuriko Kikuchi:** [GitHub](https://github.com/yurikomium)
+- **Zishan Ahmad:** [GitHub](https://github.com/spiral-memory)
+- **Yuriko Kikuchi:** [GitHub](https://github.com/yurikomium)
 
 They provided me with invaluable advice on everything from technical aspects to project management, both during our regular meetings and through asynchronous communication. Their constant reassurance that "We are here to help you" allowed me to enjoy GSoC 2025 with confidence and peace of mind. Thank you for making this such a wonderful and enriching experience! 🌞
 
