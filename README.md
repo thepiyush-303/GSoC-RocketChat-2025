@@ -217,7 +217,7 @@ These findings highlight the effectiveness of choosing Llama 3.2 Vision models f
 I developed a comprehensive set of slash commands to integrate the Trip Helper App seamlessly with Rocket.Chat, providing users with intuitive access to all travel assistance features:
 
 - `/trip help` - Returns a complete list of available commands and their usage instructions
-- `/trip create` - Creates a dedicated trip channel for accessing all app functionality  
+- `/trip create` - Creates a dedicated trip channel for accessing all app functionality
 - `/trip reminder` - Sets up reminders for upcoming events and activities in your area
 - `/trip location` - Shares or updates your current location within the trip channel
 - `/trip info` - Retrieves information about events happening around your current location
@@ -310,6 +310,21 @@ The reminder functionality, for instance, presented multiple architectural chall
 
 Similarly, the location-based conversation system required thoughtful consideration of data persistence, context management, and room-specific storage. I experimented with different approaches before settling on the current room-based location storage that maintains context while ensuring privacy and separation between different trip channels.
 
+### Key Achievements:
+
+• Implemented a comprehensive prompt engineering system for multi-modal travel assistance using advanced Llama 3.2 Vision models.
+• Developed an intuitive slash command interface that seamlessly integrates with Rocket.Chat's ecosystem.
+• Created an intelligent image recognition system for landmark identification and location detection.
+• Built a sophisticated reminder system with smart time validation and user-friendly interfaces.
+• Integrated Google Search API for location-specific event discovery and travel recommendations.
+• Established the foundation for future AI-powered travel features and collaborative trip planning.
+
+Looking ahead, I'm excited about the potential impact of the Trip Helper App on the Rocket.Chat community and travelers worldwide. The app represents a new paradigm in travel assistance - one that combines the power of AI with the collaborative nature of chat platforms.
+
+I'm deeply grateful to my mentors, the Rocket.Chat team, and the GSoC program for this life-changing opportunity. This experience has not only enhanced my technical skills but also deepened my appreciation for open-source collaboration and AI applications in real-world scenarios.
+
+The journey from initial concept to working application has taught me invaluable lessons about prompt engineering, user experience design, and the iterative nature of software development. I look forward to continuing my contributions to Rocket.Chat and applying these learnings to future projects that bridge the gap between AI technology and human needs.
+
 ### Key Lessons Learned
 
 **Iterative Development is Essential:** The most effective features emerged through multiple iterations rather than trying to perfect them from the start. Each version taught me something new about user needs and technical constraints.
@@ -338,18 +353,3 @@ Rocket.Chat is truly a welcoming team where everyone is friendly and ready to le
 ## Conclusion
 
 As I reflect on my GSoC 2025 journey with Rocket.Chat, I'm filled with a profound sense of accomplishment and gratitude. This project has been a transformative milestone in my development as both a software engineer and an open-source contributor.
-
-**Key Achievements:**
-
-• Implemented a comprehensive prompt engineering system for multi-modal travel assistance using advanced Llama 3.2 Vision models.
-• Developed an intuitive slash command interface that seamlessly integrates with Rocket.Chat's ecosystem.
-• Created an intelligent image recognition system for landmark identification and location detection.
-• Built a sophisticated reminder system with smart time validation and user-friendly interfaces.
-• Integrated Google Search API for location-specific event discovery and travel recommendations.
-• Established the foundation for future AI-powered travel features and collaborative trip planning.
-
-Looking ahead, I'm excited about the potential impact of the Trip Helper App on the Rocket.Chat community and travelers worldwide. The app represents a new paradigm in travel assistance - one that combines the power of AI with the collaborative nature of chat platforms.
-
-I'm deeply grateful to my mentors, the Rocket.Chat team, and the GSoC program for this life-changing opportunity. This experience has not only enhanced my technical skills but also deepened my appreciation for open-source collaboration and AI applications in real-world scenarios.
-
-The journey from initial concept to working application has taught me invaluable lessons about prompt engineering, user experience design, and the iterative nature of software development. I look forward to continuing my contributions to Rocket.Chat and applying these learnings to future projects that bridge the gap between AI technology and human needs.
