@@ -6,6 +6,8 @@ Hi! I'm **Piyush Bhatt**, and I had the incredible opportunity to contribute to 
 
 During my GSoC period, I worked on the Trip Helper App, an intelligent travel companion integrated with Rocket.Chat that leverages LLM technology to provide comprehensive trip assistance. This innovative app serves as your personal travel guide, offering valuable insights, recommendations, and information to enhance your travel experience through the power of AI and seamless chat integration.
 
+<img src="./assets/gsoc-icon.png" alt="Trip Helper App Workflow" width="1000" height="300"/>
+
 ## What's Rocket.Chat?
 
 Rocket.Chat is an open-source business chat tool. It's a software that allows companies and organizations to communicate on their own platform.
