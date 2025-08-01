@@ -244,12 +244,14 @@ The system responds with formatted event information like:
 ### 🎵 Music & Concerts
 
 - **Jazz Night at Blue Note** - Live jazz performance every Thursday at 8:00 PM
-  [Source](link) [⏰ Set Reminder]
+  [Source](link)
 
 ### 🎨 Arts & Culture
 
 - **Modern Art Exhibition** - Contemporary local artists showcase, open until Sunday
-  [Source](link) [⏰ Set Reminder]
+  [Source](link)
+
+  [⏰ Set Reminder Buttons]
 ```
 
 Each reminder button contains pre-populated data including the event title, date, time, and location, streamlining the user experience and making trip planning effortless within the familiar Rocket.Chat interface.
