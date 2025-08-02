@@ -316,12 +316,12 @@ Similarly, the location-based conversation system required thoughtful considerat
 
 ### Key Achievements:
 
-• Implemented a comprehensive prompt engineering system for multi-modal travel assistance using advanced Llama 3.2 Vision models.
-• Developed an intuitive slash command interface that seamlessly integrates with Rocket.Chat's ecosystem.
-• Created an intelligent image recognition system for landmark identification and location detection.
-• Built a sophisticated reminder system with smart time validation and user-friendly interfaces.
-• Integrated Google Search API for location-specific event discovery and travel recommendations.
-• Established the foundation for future AI-powered travel features and collaborative trip planning.
+- Implemented a comprehensive prompt engineering system for multi-modal travel assistance using advanced Llama 3.2 Vision models.
+- Developed an intuitive slash command interface that seamlessly integrates with Rocket.Chat's ecosystem.
+- Created an intelligent image recognition system for landmark identification and location detection.
+- Built a sophisticated reminder system with smart time validation and user-friendly interfaces.
+- Integrated Google Search API for location-specific event discovery and travel recommendations.
+- Established the foundation for future AI-powered travel features and collaborative trip planning.
 
 Looking ahead, I'm excited about the potential impact of the Trip Helper App on the Rocket.Chat community and travelers worldwide. The app represents a new paradigm in travel assistance - one that combines the power of AI with the collaborative nature of chat platforms.
 
