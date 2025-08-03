@@ -40,17 +40,26 @@ These goals were designed to address the challenge of making travel planning mor
 
 The system works as follows. Steps 6 and 7 are planned for future development:
 
-<img src="./assets/trip-helper-workflow.png" alt="Trip Helper App Workflow" width="500" height="650"/>
+<img src="./assets/trip-helper-workflow.png" alt="Trip Helper App Workflow" width="500" height="750"/>
 
 _Figure: Trip Helper App Workflow Diagram_
 
 1. The user creates a dedicated trip channel to access all Trip Helper functionality within Rocket.Chat.
+
+<img src="./assets/trip-start-cmd.png" alt="Trip Helper App Start" width="600" height="400"/>
+*Figure: Starting the Trip Helper App and initial channel setup*
 
 2. The user shares an image of their current surroundings from their trip location, or alternatively, the app can use device location services if image sharing is not possible.
 
 3. The LLM analyzes the provided image or location data to detect and identify the user's current location.
 
 4. The system provides the detected location information and prompts the user with a "Yes" or "No" confirmation to verify if the location detection is accurate.
+
+<img src="./assets/location-deteced-accepted.png" alt="Location Detection Accepted" width="500" height="300"/>
+*Figure: User accepting the detected location*
+
+<img src="./assets/location-detected-denied.png" alt="Location Detection Denied" width="500" height="300"/>
+*Figure: User declining the detected location for re-detection*
 
 5. Once the user confirms the location, the trip channel transforms into a specialized environment where they can interact with the AI travel assistant.
 
@@ -73,6 +82,21 @@ I guess you could say I wanted to solve my own problem - and hopefully help othe
 - [GitHub Repository](https://github.com/RocketChat/Apps.Trip.Helper)
 - [GSoC Project Details](https://summerofcode.withgoogle.com/programs/2025/projects/Ffe2Bu26)
 
+## Project Demonstration 🎬
+
+Here's a complete demonstration of the Trip Helper App showcasing all its key features:
+
+[![Trip Helper App Demonstration](https://img.youtube.com/vi/lvD8iSeQ5zc/maxresdefault.jpg)](https://youtu.be/lvD8iSeQ5zc)
+
+**🎥 [Watch Full Demo on YouTube](https://youtu.be/lvD8iSeQ5zc)**
+
+The demonstration covers:
+- App installation and initial setup
+- Image-based location detection
+- Slash command functionality (`/trip create`, `/trip info`, `/trip reminder`)
+- Event discovery and reminder setting
+- Complete user workflow from start to finish
+
 ## Implementation Details and Demonstration
 
 ### Prompt Engineering
@@ -85,13 +109,102 @@ The prompt engineering for the Trip Helper App is structured around three core f
 
 I've developed a two-stage prompt system for handling image-based location detection:
 
+<img src="./assets/Image-detection-recognigation.png" alt="Image Detection and Recognition Process" width="700" height="500"/>
+*Figure: AI-powered image analysis for landmark identification*
+
 **First Prompt - Image Validation:** This prompt validates whether the uploaded image contains recognizable location markers, landmarks, or geographical features that can be used for location identification. It ensures the system only processes images that have sufficient contextual information for accurate location detection.
 
+<details>
+<summary>📝 Click to view VALIDATION_PROMPT</summary>
+
+```javascript
+export const VALIDATION_PROMPT = `You are an AI assistant that determines whether an uploaded image contains a known geographic location or human-made landmark on Earth. If it does, respond with "true", else "false".
+Focus only on geographic locations, buildings, or structures — ignore people, animals, and unrelated objects.
+
+A "landmark" is a specific, identifiable place on Earth, such as:
+- Famous monuments and buildings (e.g., India Gate, Eiffel Tower, Burj Khalifa).
+- Well-known natural formations (e.g., Mount Everest, Grand Canyon, Pangong Lake).
+- Specific, named structures (e.g., the Golden Gate Bridge, a specific temple in Varanasi).
+
+A "non-landmark" or "generic scene" is an image that does not show a specific, identifiable place. These include:
+- Close-ups of objects (e.g., a bowl of fruit, a single flower, a toy).
+- Generic indoor spaces (e.g., a typical classroom, an office interior, a bedroom).
+- Unidentifiable outdoor scenes (e.g., a random street, a generic field, a common backyard).
+
+## YOUR LOGIC:
+1. Analyze the image for distinct visual cues (architecture, natural formations, environment, buildings, streets sign).
+2. If you can identify the location with high confidence, respond with a JSON object indicating it is a landmark.
+3. If the image does not contain a recognizable landmark, or if you cannot identify it with high confidence, respond with a JSON object indicating it is not a landmark.
+
+### OUTPUT FORMAT:
+- If the image contains a recognizable landmark or geographic location: { "isLandmark": "true" }
+- If the image does not contain a recognizable landmark or geographic location: { "isLandmark": "false" }
+
+** Crucial**: Do not provide any text, explanation, or code formatting around the JSON object. Your entire output must be only the parseable JSON itself.
+`;
+```
+
+</details>
+
 **Second Prompt - Image Recognition:** Once validated, this specialized prompt analyzes the image content to identify specific landmarks, architectural features, natural formations, or cultural elements that indicate the user's location. It's designed to provide detailed location information including city, country, and notable nearby attractions.
+
+<details>
+<summary>📝 Click to view MODEL_CONTENT and CONFIRMATION_PROMPT</summary>
+
+```javascript
+export const MODEL_CONTENT = `
+You are an AI model that analyzes uploaded images and identifies the specific place, monument, or landmark visible, if any. Focus only on places that have names and can be geolocated on Earth.
+`;
+
+export const CONFIRMATION_PROMPT = `You are an expert AI image analyst specializing in geographic and landmark identification. Your sole function is to analyze the provided image and identify any well-known, human-made landmarks or specific geographic locations on Earth.
+Your response must be a single, raw JSON object containing only a "name" key.
+
+## YOUR LOGIC:
+  1. Analyze the image for distinct visual cues (architecture, natural formations, environment, buildings, streets sign).
+  2. If you can identify the location with high confidence, provide its common name, city, and country.
+  3. If the image does not contain a recognizable landmark, or if you cannot identify it with high confidence, you must classify it as "unknown".
+
+### OUTPUT FORMAT:
+- For a recognized location: { "name": "India Gate, New Delhi, India" }
+- For an unrecognized location: { "name": "unknown" }
+
+**Crucial**: Do not provide any text, explanation, or code formatting around the JSON object. Your entire output must be only the parseable JSON itself.
+`;
+```
+
+</details>
 
 #### 2. JSON to Human-Friendly Text Conversion
 
 I've crafted prompts specifically for transforming structured JSON data about local events, attractions, and activities into engaging, conversational text. This ensures that when the system retrieves information about events occurring in the user's area, it presents the data in a natural, easy-to-read format rather than raw technical output.
+
+<details>
+<summary>📝 Click to view INFORMATION_PROMPT</summary>
+
+```javascript
+export const INFORMATION_PROMPT = `You are 'trip helper', a friendly and intelligent local event discovery assistant. Your primary purpose is to transform raw JSON data from a search API into a beautiful, engaging, and easy-to-read summary of local events for a user.
+
+**Your Core Directives:**
+
+1.  **Persona:** Act as an enthusiastic and helpful local guide. Use a warm, encouraging, and slightly informal tone. Use emojis to make the content feel vibrant and friendly.
+2.  **Task:** Your input will be a JSON object containing an array of search result items. Each item has a "title", "summary", and "url". Your task is to parse this data, extract the key event details, synthesize the information, and present it in a clean, categorized Markdown format.
+3.  **Categorization is Key:** Do not just list the results. Intelligently group the events into logical categories (e.g., 🎵 Music & Concerts, 🏏 Sports, 🎨 Arts & Culture, 📚 Workshops & Learning, 🛍️ Markets & Fairs). If there's only one type of event, you don't need multiple categories.
+4.  **Summarize, Don't Just Copy:** Read the "title" and "summary" to understand the event. Write a brief, one-sentence summary for each event in your own words. Do not just repeat the summary.
+5.  **Extract Key Info:** Identify the event name, and if possible, the date and venue from the text. Bold these key pieces of information.
+6.  **Mandatory Formatting Rules:**
+    *   Start with a friendly greeting and a summary of what you found.
+    *   Use Level 3 Markdown headers (###) for each event category (e.g., ### 🎭 Theatre & Comedy).
+    *   List each event as a bullet point (*).
+    *   Each bullet point must end with a clickable Markdown link to the source: \`[Source]({item.displayLink})\`.
+7.  **Handle Imperfect Data:**
+    *   If the JSON is empty or contains no relevant events, respond gracefully, saying something like, "I couldn't find any specific events happening right now in your area, but I'll keep looking!"
+    *   Never invent details (like dates or venues) if they are not present in the provided data.
+`;
+
+export const INFORMATION_CONTENT_PROMPT = `You are a helpful assistant that transform JSON data containing event-related information from {location} into a user-friendly summary.`;
+```
+
+</details>
 
 The prompt structure focuses on:
 
@@ -156,6 +269,95 @@ For the `INFORMATION_PROMPT`, I designed a comprehensive styling system that tra
 #### Event Data Extraction Styling
 
 For date and time extraction prompts (`EVENTS_DATES_PROMPT`, `EVENTS_REMINDER_PROMPT`), I implemented structured JSON array formatting:
+
+<details>
+<summary>📝 Click to view EVENTS_DATES_PROMPT</summary>
+
+```javascript
+export const EVENTS_DATES_PROMPT = `You are an expert AI assistant specializing in extracting structured event information from text. Your task is to identify all future events from the provided text, based on the given current date.
+
+**Current Date:**
+{currentDate}
+
+**Rules:**
+1.  You must identify every event mentioned in the text that has a specific date or a day of the week.
+2.  Your primary goal is to extract only **future events**. Any event with a date before the "Current Date" must be ignored.
+3.  If an event only mentions a day of the week (e.g., "Monday", "Thursday"), you must calculate the date of the next upcoming instance of that day starting from the "Current Date". For example, if the current date is Sunday, July 20th, the next "Monday" is July 21st.
+4.  If an event description does not contain any mention of a date or a day, you must ignore it completely.
+5.  The output must be a single, clean JSON array of objects. Do not add any introductory text, explanations, or markdown formatting around the JSON.
+
+**Future Events Only:** After determining an event's date, compare it to the "Current Date". If the event's date is in the past, discard it.
+
+**Output Format:** The final output must be a single, clean JSON array of objects. Do not add any introductory text, explanations, or markdown formatting. Each object must have this structure:
+    *   "title": The concise title or name of the event.
+    *   "date": The full date in "YYYY-MM-DD" format.
+    *   "time": The time of the event. If a specific time is mentioned, use it. If not, default to "12:00".
+
+**Example Reasoning Process (Follow this logic):**
+*   **Input Event:** "🎵 Secret Concert: Enjoy a mysterious candlelit concert at 6:30 PM on Monday at Via Bologna."
+*   **My Thought Process:**
+    1.  The title is "Secret Concert".
+    2.  Does the description have a full date? No.
+    3.  Does it have a day of the week? Yes, "Monday".
+    4.  The current date is Sunday, 20-07-2025. The next Monday is 21-07-2025.
+    5.  Is 21-07-2025 in the future? Yes. Convert it to "2025-07-21".
+    6.  Is there a time? Yes, "6:30 PM". Convert it to "18:30".
+    7.  Resulting object: {"title": "Secret Concert", "date": "2025-07-21", "time": "18:30"}
+
+**Input Text:**
+[PASTE THE INPUT TEXT HERE]
+
+**Output:** Your Final output must be in this format:
+[
+    {
+        "title": "Secret Concert",
+        "date": "2025-07-21",
+        "time": "18:30"
+    }
+]`;
+```
+
+</details>
+
+<details>
+<summary>📝 Click to view EVENTS_REMINDER_PROMPT</summary>
+
+```javascript
+export const EVENTS_REMINDER_PROMPT = `You are a specialized, high-precision data extraction AI.
+Your task is to identify and extract all relevant event information from the provided text.
+
+**Rules:**
+1.  Focus on extracting structured data about events, including titles, dates, times, and locations.
+2.  If the text contains multiple events, extract each one separately.
+3.  If any required information is missing (e.g., title or date), the event should be ignored.
+4.  The output must be a clean JSON array of event objects.
+
+**Output Object Structure:** The final output must be a single, clean JSON array of objects. Do not add any introductory text, explanations, or markdown formatting. Each object must have this structure:
+-   "title": A concise title or name of the event.
+-   "date": The full date of the event in "YYYY-MM-DD" format.
+-   "time": The time of the event. If a specific time is mentioned, use it. If not, default to "12:00".
+
+**Example Input:**
+- "Concert on July 25th at 8:00 PM in Central Park"
+- "Art exhibition opening on August 1st"
+
+**Example Output:**
+[
+    {
+        "title": "Concert, central park",
+        "date": "2025-07-25",
+        "time": "20:00",
+    },
+    {
+        "title": "Art exhibition opening",
+        "date": "2025-08-01",
+        "time": "12:00",
+    }
+]
+`;
+```
+
+</details>
 
 ```json
 "style_instructions": {
@@ -224,15 +426,27 @@ I developed a comprehensive set of slash commands to integrate the Trip Helper A
 - `/trip location` - Shares or updates your current location within the trip channel
 - `/trip info` - Retrieves information about events happening around your current location
 
+<img src="./assets/trip-help-cmd.png" alt="Trip Help Command" width="600" height="300"/>
+*Figure: /trip help command showing all available commands*
+
 #### Command Details and Functionality
 
 **Create Command (`/trip create`):** This command initializes a new dedicated trip channel where users can interact with all the app's functionality. The channel becomes a specialized environment optimized for travel assistance, complete with location context and personalized recommendations. Once created, the channel serves as your personal travel hub where the AI assistant maintains context about your trip and preferences.
 
+<img src="./assets/trip-create-cmd.png" alt="Trip Create Command" width="600" height="400"/>
+*Figure: /trip create command in action*
+
 **Reminder Command (`/trip reminder`):** This feature helps users set up intelligent reminders for upcoming events discovered through the location-based search. When events are identified in your area, the system can automatically schedule reminders with all relevant details pre-populated, including event names, dates, times, and locations. Users can customize reminder timing and receive notifications directly within Rocket.Chat.
+
+<img src="./assets/trip-reminder-cmd.png" alt="Trip Reminder Command" width="600" height="400"/>
+*Figure: /trip reminder command with time picker interface*
 
 **Location Command (`/trip location`):** This command allows users to manually set or update their current location within the trip channel. It's particularly useful when automatic location detection isn't available or when planning for future destinations. The command accepts various input formats and updates the context for all subsequent travel recommendations and event searches.
 
 **Info Command (`/trip info`):** This powerful command retrieves comprehensive information about events, attractions, and activities happening around your current location. The response includes categorized events with detailed descriptions, timing information, and direct links to sources. Each event listing comes with an integrated reminder button that has all the event data pre-configured, making it easy to set up notifications with a single click.
+
+<img src="./assets/trip-info-cmd.png" alt="Trip Info Command" width="600" height="400"/>
+*Figure: /trip info command showing categorized local events*
 
 Here's an example of how the info command works in practice:
 
