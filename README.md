@@ -89,8 +89,10 @@ Here's a complete demonstration of the Trip Helper App showcasing all its key fe
 [![Trip Helper App Demonstration](https://img.youtube.com/vi/lvD8iSeQ5zc/maxresdefault.jpg)](https://youtu.be/lvD8iSeQ5zc)
 
 **🎥 [Watch Full Demo on YouTube](https://youtu.be/lvD8iSeQ5zc)**
+(_Please select 720p quality to watch it clearly_)
 
 The demonstration covers:
+
 - App installation and initial setup
 - Image-based location detection
 - Slash command functionality (`/trip create`, `/trip info`, `/trip reminder`)
@@ -251,6 +253,60 @@ For the validation and confirmation prompts (`VALIDATION_PROMPT` and `CONFIRMATI
 }
 ```
 
+<details>
+<summary>📝 Click to view VALIDATION_PROMPT</summary>
+
+```javascript
+export const VALIDATION_PROMPT = `You are an AI assistant that determines whether an uploaded image contains a known geographic location or human-made landmark on Earth. If it does, respond with "true", else "false".
+Focus only on geographic locations, buildings, or structures — ignore people, animals, and unrelated objects.
+
+A "landmark" is a specific, identifiable place on Earth, such as:
+- Famous monuments and buildings (e.g., India Gate, Eiffel Tower, Burj Khalifa).
+- Well-known natural formations (e.g., Mount Everest, Grand Canyon, Pangong Lake).
+- Specific, named structures (e.g., the Golden Gate Bridge, a specific temple in Varanasi).
+
+A "non-landmark" or "generic scene" is an image that does not show a specific, identifiable place. These include:
+- Close-ups of objects (e.g., a bowl of fruit, a single flower, a toy).
+- Generic indoor spaces (e.g., a typical classroom, an office interior, a bedroom).
+- Unidentifiable outdoor scenes (e.g., a random street, a generic field, a common backyard).
+
+## YOUR LOGIC:
+1. Analyze the image for distinct visual cues (architecture, natural formations, environment, buildings, streets sign).
+2. If you can identify the location with high confidence, respond with a JSON object indicating it is a landmark.
+3. If the image does not contain a recognizable landmark, or if you cannot identify it with high confidence, respond with a JSON object indicating it is not a landmark.
+
+### OUTPUT FORMAT:
+- If the image contains a recognizable landmark or geographic location: { "isLandmark": "true" }
+- If the image does not contain a recognizable landmark or geographic location: { "isLandmark": "false" }
+
+** Crucial**: Do not provide any text, explanation, or code formatting around the JSON object. Your entire output must be only the parseable JSON itself.
+`;
+```
+
+</details>
+
+<details>
+<summary>📝 Click to view CONFIRMATION_PROMPT</summary>
+
+```javascript
+export const CONFIRMATION_PROMPT = `You are an expert AI image analyst specializing in geographic and landmark identification. Your sole function is to analyze the provided image and identify any well-known, human-made landmarks or specific geographic locations on Earth.
+Your response must be a single, raw JSON object containing only a "name" key.
+
+## YOUR LOGIC:
+  1. Analyze the image for distinct visual cues (architecture, natural formations, environment, buildings, streets sign).
+  2. If you can identify the location with high confidence, provide its common name, city, and country.
+  3. If the image does not contain a recognizable landmark, or if you cannot identify it with high confidence, you must classify it as "unknown".
+
+### OUTPUT FORMAT:
+- For a recognized location: { "name": "India Gate, New Delhi, India" }
+- For an unrecognized location: { "name": "unknown" }
+
+**Crucial**: Do not provide any text, explanation, or code formatting around the JSON object. Your entire output must be only the parseable JSON itself.
+`;
+```
+
+</details>
+
 This ensures that the system receives clean, parseable data that can be immediately processed without additional text parsing. The prompts explicitly state: _"Do not provide any text, explanation, or code formatting around the JSON object."_
 
 #### Event Information Styling
@@ -265,6 +321,32 @@ For the `INFORMATION_PROMPT`, I designed a comprehensive styling system that tra
   "content_approach": "Summarize in your own words, don't just copy the source content"
 }
 ```
+
+<details>
+<summary>📝 Click to view INFORMATION_PROMPT </summary>
+
+```javascript
+export const INFORMATION_PROMPT = `You are 'trip helper', a friendly and intelligent local event discovery assistant. Your primary purpose is to transform raw JSON data from a search API into a beautiful, engaging, and easy-to-read summary of local events for a user.
+
+**Your Core Directives:**
+
+1.  **Persona:** Act as an enthusiastic and helpful local guide. Use a warm, encouraging, and slightly informal tone. Use emojis to make the content feel vibrant and friendly.
+2.  **Task:** Your input will be a JSON object containing an array of search result items. Each item has a "title", "summary", and "url". Your task is to parse this data, extract the key event details, synthesize the information, and present it in a clean, categorized Markdown format.
+3.  **Categorization is Key:** Do not just list the results. Intelligently group the events into logical categories (e.g., 🎵 Music & Concerts, 🏏 Sports, 🎨 Arts & Culture, 📚 Workshops & Learning, 🛍️ Markets & Fairs). If there's only one type of event, you don't need multiple categories.
+4.  **Summarize, Don't Just Copy:** Read the "title" and "summary" to understand the event. Write a brief, one-sentence summary for each event in your own words. Do not just repeat the summary.
+5.  **Extract Key Info:** Identify the event name, and if possible, the date and venue from the text. Bold these key pieces of information.
+6.  **Mandatory Formatting Rules:**
+    *   Start with a friendly greeting and a summary of what you found.
+    *   Use Level 3 Markdown headers (###) for each event category (e.g., ### 🎭 Theatre & Comedy).
+    *   List each event as a bullet point (*).
+    *   Each bullet point must end with a clickable Markdown link to the source: \`[Source]({item.displayLink})\`.
+7.  **Handle Imperfect Data:**
+    *   If the JSON is empty or contains no relevant events, respond gracefully, saying something like, "I couldn't find any specific events happening right now in your area, but I'll keep looking!"
+    *   Never invent details (like dates or venues) if they are not present in the provided data.
+`;
+```
+
+</details>
 
 #### Event Data Extraction Styling
 
@@ -555,19 +637,28 @@ The journey from initial concept to working application has taught me invaluable
 
 These challenges ultimately made me a better developer and gave me deep insights into AI application development, user experience design, and the evolving field of prompt engineering.
 
-## Acknowledgements ✨
+## Acknowledgements
 
-I am fortunate to have two incredible mentors who guided me throughout this journey:
+Writing this feels a bit surreal - GSoC 2025 is actually coming to an end! I can't wrap up this report without talking about the people who made this whole experience possible.
 
-- **Zishan Ahmad:** [GitHub](https://github.com/spiral-memory)
-- **Yuriko Kikuchi:** [GitHub](https://github.com/yurikomium)
+First off, my mentors **Zishan Ahmad** ([GitHub](https://github.com/spiral-memory)) and **Yuriko Kikuchi** ([GitHub](https://github.com/yurikomium)) - honestly, I couldn't have asked for better guides. What struck me most about them wasn't just their technical expertise (which is impressive), but how genuinely invested they were in my success. Whether it was our weekly video calls where they patiently listened to my sometimes scattered ideas, or those late-night Rocket's messages when I was stuck on a particularly tricky prompt engineering problem, they were always there.
 
-They provided me with invaluable advice on everything from technical aspects to project management, both during our regular meetings and through asynchronous communication. Their constant reassurance that "We are here to help you" allowed me to enjoy GSoC 2025 with confidence and peace of mind. Thank you for making this such a wonderful and enriching experience! 🌞
+I also want to give a shout-out to the other GSoC contributors working with Rocket.Chat this year. You know who you are! Those brainstorming sessions in the community channels, sharing our wins and frustrations, celebrating each other's merged PRs - that camaraderie made the whole experience so much richer. There's something uniquely motivating about being surrounded by other people who are just as excited about open source as you are.
 
-And to my fellow GSoC 2025 participants as Rocket.Chat contributors! Rocket.Chat provided amazing opportunities to foster connections between contributors, creating spaces for collaboration and learning. The community spirit and willingness to help each other made this journey even more special. Connecting with other contributors allowed me to ask questions, brainstorm solutions, and engage in meaningful discussions about AI and travel technology. The community members were a tremendous source of support and inspiration. From the bottom of my heart, thank you 🤝
-
-Rocket.Chat is truly a welcoming team where everyone is friendly and ready to lend a hand when you're in need. I'm so glad that my journey into open-source contribution started with Rocket.Chat! I encourage anyone interested in AI, chat applications, or open-source development to dive into Rocket.Chat too 🚀
+And honestly? The entire Rocket.Chat community deserves recognition here. From day one, I felt welcomed rather than like an outsider trying to contribute. The code reviews were constructive, the discussions in GitHub issues were thoughtful, and there was always someone willing to help when I got stuck. It's the kind of environment that makes you want to keep contributing long after GSoC ends.
 
 ## Conclusion
 
-As I reflect on my GSoC 2025 journey with Rocket.Chat, I'm filled with a profound sense of accomplishment and gratitude. This project has been a transformative milestone in my development as both a software engineer and an open-source contributor.
+Three months ago, if someone had told me I'd be writing a final report about an AI-powered travel assistant that actually works, I probably would have laughed. Not because I didn't believe in the project, but because the gap between "cool idea" and "functioning software" always seemed so vast.
+
+Now, looking back at the 10 pull requests, countless hours of debugging prompts, and all those moments where everything suddenly clicked, I realize this journey taught me way more than just how to integrate LLMs with chat platforms. It taught me that persistence really does pay off especially when you're working on something you genuinely care about.
+
+The Trip Helper App isn't perfect (what software ever is?), but it works. People can upload a photo of where they are, get location-specific event recommendations, set reminders, and have meaningful conversations with an AI travel companion. That's pretty amazing when you think about it.
+
+What excites me most is that this feels like just the beginning. The foundation we've built opens up so many possibilities - collaborative trip planning, real-time booking integration, multi-language support. The roadmap practically writes itself.
+
+But beyond the technical achievements, this experience has shaped how I think about software development. I've learned that great user experience often trumps technical complexity, that prompt engineering is equal parts art and science, and that the best solutions usually emerge through iteration rather than trying to get everything perfect from the start.
+
+As GSoC 2025 wraps up, I'm not saying goodbye to Rocket.Chat - I'm looking forward to continuing as a regular contributor. This community has become a part of my journey as a developer, and I'm excited to see where we can take the Trip Helper App next.
+
+To anyone considering applying for GSoC or contributing to open source: just do it. The learning curve might feel steep at first, but the combination of technical growth, community connection, and the satisfaction of building something that others can actually use makes it all worthwhile.
